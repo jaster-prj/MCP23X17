@@ -43,14 +43,14 @@ uint8_t MCP23X17::pinMode(uint8_t pin, uint8_t mode, bool inverted)
 	MCP23X17Register polreg = MCP23X17Register::IPOL_A+port;
 	uint8_t iodir, pol, pull;
 
-	err = readRegister(iodirreg, &iodir);
+	err = readRegister(iodirreg, iodir);
 	if (err != 0) {
 		return err;
 	}
 	if(mode == INPUT || mode == INPUT_PULLUP) bitSet(iodir, pin);
 	else bitClear(iodir, pin);
 
-	err = readRegister(pullupreg, &pull);
+	err = readRegister(pullupreg, pull);
 	if (err != 0) {
 		return err;
 	}
