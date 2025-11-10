@@ -15,10 +15,10 @@ class MCP23S17 : public MCP23X17
         MCP23S17(uint8_t address, uint8_t chipSelect);
         MCP23S17(uint8_t address, uint8_t chipSelect, SPIClass *bus);
         ~MCP23S17();
-        void writeRegister(MCP23X17Register reg, uint8_t value);
-        void writeRegister(MCP23X17Register reg, uint8_t portA, uint8_t portB);
-        uint8_t readRegister(MCP23X17Register reg);
-        void readRegister(MCP23X17Register reg, uint8_t& portA, uint8_t& portB);
+        uint8_t writeRegister(MCP23X17Register reg, uint8_t value);
+        uint8_t writeRegister(MCP23X17Register reg, uint8_t portA, uint8_t portB);
+        uint8_t readRegister(MCP23X17Register reg, uint8_t& buffer);
+        uint8_t readRegister(MCP23X17Register reg, uint8_t& portA, uint8_t& portB);
 };
 
 #endif

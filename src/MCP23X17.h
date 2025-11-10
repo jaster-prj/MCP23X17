@@ -73,7 +73,7 @@ public:
 	 * 
 	 * See "3.2.1 Byte mode and Sequential mode".
 	 */
-	void init();
+	uint8_t init();
 	/**
 	 * Controls the pins direction on a whole port at once.
 	 * 
@@ -82,7 +82,7 @@ public:
 	 * 
 	 * See "3.5.1 I/O Direction register".
 	 */
-	void portMode(MCP23X17Port port, uint8_t directions, uint8_t pullups = 0xFF, uint8_t inverted = 0x00);
+	uint8_t portMode(MCP23X17Port port, uint8_t directions, uint8_t pullups = 0xFF, uint8_t inverted = 0x00);
 	/**
 	 * Controls a single pin direction. 
 	 * Pin 0-7 for port A, 8-15 fo port B.
@@ -98,7 +98,7 @@ public:
 	 * This library pinMode function behaves like Arduino's standard pinMode for consistency.
 	 * [ OUTPUT | INPUT | INPUT_PULLUP ]
 	 */
-	void pinMode(uint8_t pin, uint8_t mode, bool inverted = false);
+	uint8_t pinMode(uint8_t pin, uint8_t mode, bool inverted = false);
 
 	/**
 	 * Writes a single pin state.
@@ -109,7 +109,7 @@ public:
 	 * 
 	 * See "3.5.10 Port register".
 	 */
-	void digitalWrite(uint8_t pin, uint8_t state);
+	uint8_t digitalWrite(uint8_t pin, uint8_t state);
 	/**
 	 * Reads a single pin state.
 	 * Pin 0-7 for port A, 8-15 for port B.
@@ -119,7 +119,7 @@ public:
 	 * 
 	 * See "3.5.10 Port register".
 	 */ 
-	uint8_t digitalRead(uint8_t pin);
+	uint8_t digitalRead(uint8_t pin, uint8_t& buffer);
 
 	/**
 	 * Writes pins state to a whole port.
@@ -129,7 +129,7 @@ public:
 	 * 
 	 * See "3.5.10 Port register".
 	 */
-	void writePort(MCP23X17Port port, uint8_t value);
+	uint8_t writePort(MCP23X17Port port, uint8_t value);
 	/**
 	 * Writes pins state to both ports.
 	 * 
@@ -138,7 +138,7 @@ public:
 	 * 
 	 * See "3.5.10 Port register".
 	 */
-	void write(uint16_t value);
+	uint8_t write(uint16_t value);
 
 	/**
 	 * Reads pins state for a whole port.
@@ -148,7 +148,7 @@ public:
 	 * 
 	 * See "3.5.10 Port register".
 	 */
-	uint8_t readPort(MCP23X17Port port);
+	uint8_t readPort(MCP23X17Port port, uint8_t& buffer);
 	/**
 	 * Reads pins state for both ports. 
 	 * 
@@ -157,12 +157,12 @@ public:
 	 * 
 	 * See "3.5.10 Port register".
 	 */
-	uint16_t read();
+	uint8_t read(uint16_t& buffer);
 
 	/**
 	 * Writes a single register value.
 	 */
-	virtual void writeRegister(MCP23X17Register reg, uint8_t value);
+	virtual uint8_t writeRegister(MCP23X17Register reg, uint8_t value);
 	/**
 	 * Writes values to a register pair.
 	 * 
@@ -170,11 +170,11 @@ public:
 	 * you have to supply a portA register address to reg. Otherwise, values
 	 * will be reversed due to the way the MCP23X17 works in Byte mode.
 	 */
-	virtual void writeRegister(MCP23X17Register reg, uint8_t portA, uint8_t portB);
+	virtual uint8_t writeRegister(MCP23X17Register reg, uint8_t portA, uint8_t portB);
 	/**
 	 * Reads a single register value.
 	 */
-	virtual uint8_t readRegister(MCP23X17Register reg);
+	virtual uint8_t readRegister(MCP23X17Register reg, uint8_t& buffer);
 	/**
 	 * Reads the values from a register pair.
 	 * 
@@ -182,7 +182,7 @@ public:
 	 * you have to supply a portA register address to reg. Otherwise, values
 	 * will be reversed due to the way the MCP23X17 works in Byte mode.
 	 */
-	virtual void readRegister(MCP23X17Register reg, uint8_t& portA, uint8_t& portB);
+	virtual uint8_t readRegister(MCP23X17Register reg, uint8_t& portA, uint8_t& portB);
 
 #ifdef _MCP23X17_INTERRUPT_SUPPORT_
 
@@ -194,28 +194,28 @@ public:
 	 * Controls the IOCON.MIRROR bit. 
 	 * See "3.5.6 Configuration register".
 	 */
-	void interruptMode(MCP23X17InterruptMode intMode);
+	uint8_t interruptMode(MCP23X17InterruptMode intMode);
 	/**
 	 * Configures interrupt registers using an Arduino-like API.
 	 * mode can be one of CHANGE, FALLING or RISING.
 	 */
-	void interrupt(MCP23X17Port port, uint8_t mode);
-	/**
-	 * Disable interrupts for the specified port.
-	 */
-	void disableInterrupt(MCP23X17Port port);
+	uint8_t interrupt(MCP23X17Port port, uint8_t mode);
 	/**
 	 * Reads which pin caused the interrupt.
 	 */
-	void interruptedBy(uint8_t& portA, uint8_t& portB);
+	uint8_t interruptedBy(uint8_t& portA, uint8_t& portB);
+	/**
+	 * Disable interrupts for the specified port.
+	 */
+	uint8_t disableInterrupt(MCP23X17Port port);
 	/**
 	 * Clears interrupts on both ports.
 	 */
-	void clearInterrupts();
+	uint8_t clearInterrupts();
 	/**
 	 * Clear interrupts on both ports. Returns port values at the time the interrupt occured.
 	 */
-	void clearInterrupts(uint8_t& portA, uint8_t& portB);
+	uint8_t clearInterrupts(uint8_t& portA, uint8_t& portB);
 
 #endif
 };

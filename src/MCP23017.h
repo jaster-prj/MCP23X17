@@ -14,12 +14,12 @@ class MCP23017 : public MCP23X17
         MCP23017(uint8_t address);
         MCP23017(uint8_t address, TwoWire *bus);
         ~MCP23017();
-        void begin(int sdaPin, int sclPin);
+        bool begin(int sdaPin, int sclPin);
         bool checkAck();
-        void writeRegister(MCP23X17Register reg, uint8_t value);
-        void writeRegister(MCP23X17Register reg, uint8_t portA, uint8_t portB);
-        uint8_t readRegister(MCP23X17Register reg);
-        void readRegister(MCP23X17Register reg, uint8_t& portA, uint8_t& portB);
+        uint8_t writeRegister(MCP23X17Register reg, uint8_t value);
+        uint8_t writeRegister(MCP23X17Register reg, uint8_t portA, uint8_t portB);
+        uint8_t readRegister(MCP23X17Register reg, uint8_t& buffer);
+        uint8_t readRegister(MCP23X17Register reg, uint8_t& portA, uint8_t& portB);
 };
 
 #endif

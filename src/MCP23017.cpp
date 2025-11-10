@@ -26,45 +26,46 @@ bool MCP23017::checkAck() {
     }
 }
 
-void MCP23017::begin(int sdaPin, int sclPin)
+bool MCP23017::begin(int sdaPin, int sclPin)
 {
 	_bus->setPins(sdaPin, sclPin);
-	_bus->begin();
+	return _bus->begin();
 }
 
-void MCP23017::writeRegister(MCP23X17Register reg, uint8_t value)
+uint8_t MCP23017::writeRegister(MCP23X17Register reg, uint8_t value)
 {
 	_bus->beginTransmission(_deviceAddr);
 	_bus->write(static_cast<uint8_t>(reg));
 	_bus->write(value);
-	_bus->endTransmission();
+	return _bus->endTransmission();
 }
 
-void MCP23017::writeRegister(MCP23X17Register reg, uint8_t portA, uint8_t portB)
+uint8_t MCP23017::writeRegister(MCP23X17Register reg, uint8_t portA, uint8_t portB)
 {
 	_bus->beginTransmission(_deviceAddr);
 	_bus->write(static_cast<uint8_t>(reg));
 	_bus->write(portA);
 	_bus->write(portB);
-	_bus->endTransmission();
+	return _bus->endTransmission();
 }
 
-
-uint8_t MCP23017::readRegister(MCP23X17Register reg)
+uint8_t MCP23017::readRegister(MCP23X17Register reg, uint8_t& buffer)
 {
 	_bus->beginTransmission(_deviceAddr);
 	_bus->write(static_cast<uint8_t>(reg));
-	_bus->endTransmission(false);
+	uint8_t err = _bus->endTransmission(false);
 	_bus->requestFrom(_deviceAddr, (uint8_t)1);
-	return _bus->read();
+	buffer = _bus->read();
+	return err;
 }
 
-void MCP23017::readRegister(MCP23X17Register reg, uint8_t& portA, uint8_t& portB)
+uint8_t MCP23017::readRegister(MCP23X17Register reg, uint8_t& portA, uint8_t& portB)
 {
 	_bus->beginTransmission(_deviceAddr);
 	_bus->write(static_cast<uint8_t>(reg));
-	_bus->endTransmission();
+	uint8_t err = _bus->endTransmission();
 	_bus->requestFrom(_deviceAddr, (uint8_t)2);
 	portA = _bus->read();
 	portB = _bus->read();
+	return err;
 }
